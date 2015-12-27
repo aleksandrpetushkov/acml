@@ -1,5 +1,7 @@
 #include <map>
 #include <vector>
+#include <iostream>
+#include <string>
 
 
 class Node
@@ -13,6 +15,7 @@ public:
 
 	bool find(const char& in)
 	{
+	
 		if(list.find(in)!=list.end())
 		{
 			return true;
@@ -40,22 +43,43 @@ public:
 	{
 		_end = true;
 	}
-	std::vector<std::string> get_exist_end()
+	std::vector<std::string> get_exist_end()const
 	{
+
 		std::vector<std::string> result;
 		std::string tmp;
-		 for(const auto& elem:list)
-		 {
-			 if (elem.second.End())
-			 {
-				 tmp = elem.first;
-				 result.push_back(tmp);
-			 }
-
-		 }
+		for (const auto& elem : list)
+		{
+			if (elem.second.End())
+			{
+				tmp = elem.first;
+				result.push_back(tmp);
+				for (const auto& elem1 : elem.second.get_exist_end())
+				{
+					tmp = elem.first + elem1;
+					result.push_back(tmp);
+				}
+			}
+			else
+			{
+				for (const auto& elem1 : elem.second.get_exist_end())
+				{
+					tmp =elem.first+ elem1;
+					result.push_back(tmp);
+				}
+			}
+		}
+		return result;
 	}
- protected:
+
+	char size_nodes()const
+	{
+		return list.size();
+	}
+
+protected:
 	char _val;
 	bool _end;
 	std::map<char, Node> list;
 };
+
