@@ -3,11 +3,57 @@
 #include <fstream>
 #include <string>
 #include <algorithm>
+#include "gtest/gtest.h"
 
 using namespace std;
 
+TEST(triу, add, search)  //Тест добавления слова
+{
+	Trie tr;
+	tr.Add("клавиатура\t10");
+	ostringstream test_str;
+	for(const auto& elem:tr.search("клав"))
+	{
+		test_str <<"клав" << elem.st << elem.weight;
+	}
+	EXPECT_EQ("клавиатура10", string(test_str.str()));
+}
 
-unsigned short int main()
+TEST(trie, up) //Тестируется метод поднятия веса у элемента
+{
+	Trie tr;
+	tr.Add("клавиатура\t10");
+	tr.up("клавиатура");
+	ostringstream test_str;
+	for (const auto& elem : tr.search("клав"))
+	{
+		test_str << "клав" << elem.st << elem.weight;
+	}
+	EXPECT_EQ("клавиатура11", string(test_str.str()));
+}
+
+
+TEST(trie, common) //Общий тест дерева. Добавляются слова с разным весом, сортируется результат и сравнивается с ожиданием
+{
+	Trie tr;
+	tr.Add("клавиатура\t10");
+	tr.Add("кошка");
+	tr.Add("крот\t5");
+	ostringstream test_str;
+	vector<li> v = tr.search("к");
+	sort(v.begin(), v.end());
+	for (const auto& elem : v)
+	{
+		test_str << "к" << elem.st << elem.weight;
+	}
+	EXPECT_EQ("кошка0крот5клавиатура10", string(test_str.str()));
+
+}
+
+
+
+
+unsigned short int main(int argc, char* argv[])
 {
 	/*
 	При загрузка словаря рядом со словом указывается вес слова (сколько раз оно было выбрано для подстановки)
@@ -15,7 +61,6 @@ unsigned short int main()
 	В данном классе есть поля строка и вес строки. После того как сформируется вектор объектов "li" он сортируется и выводится в обратном порядке (у кого вес больше тот и выше)
 
 	//*/
-
 
 
 	system("chcp 1251 >> null");
@@ -84,9 +129,15 @@ unsigned short int main()
 			}
 			else
 			{
+				unsigned int i(0);
 				for (unsigned int k = mass_st.size() ; k > 0; --k)
 				{
 					cout << "[" << mass_st.size() - k+1 << "] - " << str << mass_st[k-1].st << "  " << mass_st[k-1].weight << endl;
+					if (i == 7)
+					{
+						break;
+					}
+					++i;
 				}
 				cin >> num;
 				tr.up(str + mass_st[mass_st.size() - num].st);
@@ -99,11 +150,9 @@ unsigned short int main()
 		}
 	}
 	tr.unload_lib("lib.txt");// Выгрузка библиотеки
-	/*
-	for (int i = mass_st.size() - 1; i >= 0; --i)
-	{
-		cout << str << mass_st[i].st << "   " << mass_st[i].weight << endl;
-	}
-	*/
-	//cin.get();
+	::testing::InitGoogleTest(&argc, argv);
+	RUN_ALL_TESTS();
+	cin.get();
+	cin.get();
+
 }

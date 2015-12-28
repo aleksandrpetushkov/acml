@@ -119,38 +119,7 @@ public:
 		}
 		return result;
 	}
-	std::vector<li> get_lib()const
-	{
-
-		std::vector<li> result;
-		std::string tmp;
-		for (const auto& elem : list)
-		{
-			if (_end)
-			{
-
-				tmp = _val;
-				li l(weight, tmp);
-				result.push_back(l);
-				for (const auto& elem1 : elem.second.get_lib())
-				{
-					tmp = _val + elem1.st;
-					li l(elem1.weight, tmp);
-					result.push_back(l);
-				}
-			}
-			else
-			{
-				for (const auto& elem1 :elem.second.get_lib())
-				{
-					tmp = _val + elem1.st;
-					li l(elem1.weight, tmp);
-					result.push_back(l);
-				}
-			}
-		}
-		return result;
-	}
+	
 
 	char size_nodes()const
 	{
