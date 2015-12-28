@@ -4,7 +4,34 @@
 #include <string>
 
 
-class li;
+class li
+{
+public:
+	li(unsigned int i, std::string _st)
+	{
+		weight = i;
+		st = _st;
+	}
+	bool operator==(const li& _in)const // перегрузка оператора для сортировки.
+	{
+		if(weight==_in.weight)
+		{
+			return true;
+		}
+		return false;
+	}
+
+	bool operator <(const li& right)const // перегрузка оператора для сортировки 
+	{
+		if(weight<right.weight)
+		{
+			return true;
+		}
+		return false;
+	}
+	unsigned int weight;
+	std::string st;
+};
 
 class Node
 {
@@ -18,7 +45,7 @@ public:
 	bool find(const char& in)
 	{
 	
-		if(list.find(in)!=list.end())
+		if(list.find(in)!=list.end()) // Если данный символ является концом - значит это последний симвл слова
 		{
 			return true;
 		}
@@ -45,31 +72,33 @@ public:
 	{
 		_end = true;
 	}
-	std::map<unsigned int, std::string> get_exist_end()const
+	std::vector<li> get_exist_end()const // В рекурсии перебираются нижние узлы и формируется список существующих окончаний от запрошенного узла
 	{
 
-		std::map<unsigned int, std::string> result;
+		std::vector<li> result;
 		std::string tmp;
 		for (const auto& elem : list)
 		{
 			if (elem.second.End())
 			{
-
+				
 				tmp = elem.first;
-
-				result[elem.second.get_weight()] = tmp;
+				li l(elem.second.get_weight(), tmp);
+				result.push_back(l);
 				for (const auto& elem1 : elem.second.get_exist_end())
 				{
-					tmp = elem.first + elem1.second;
-					result[elem1.first]=tmp;
+					tmp = elem.first + elem1.st;
+					li l(elem1.weight, tmp);
+					result.push_back(l);
 				}
 			}
 			else
 			{
 				for (const auto& elem1 : elem.second.get_exist_end())
 				{
-					tmp = elem.first + elem1.second;
-					result[elem1.first] = tmp;
+					tmp = elem.first + elem1.st;
+					li l(elem1.weight, tmp);
+					result.push_back(l);
 				}
 			}
 		}
@@ -95,20 +124,5 @@ protected:
 	char _val;
 	bool _end;
 	std::map<char, Node> list;
-};
-
-class li
-{
-public:
-
-	li(){}
-	li(unsigned int _i, std::string s)
-	{
-		w = _i;
-		str = s;
-	}
-	unsigned int w=0;
-	std::string str;
-
 };
 

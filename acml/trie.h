@@ -26,10 +26,12 @@ public:
 		if(pos2!=pos3)
 		{
 			weight = stoi(_new.substr(pos2, pos3 - pos2));
-
 		}
-
+		//std::cout << _new;
+	
 		_new = _new.substr(pos, pos1 - pos); // ¬ырезаетс€ из строки только первое слово дл€ отброса лишнего
+
+		//std::cout << "         " << _new;
 
 		for (unsigned short int i = 0; i < _new.size();++i) // ÷икл в котором будет перебиратьс€ строка по символам и заноситьс€ в дерево
 		{
@@ -44,29 +46,32 @@ public:
 				current = current->next(_new[i]);
 			}
 		}
+
+		//std::cout << "     " << weight << std::endl;;
 		current->set_weigth(weight);
 		current->Set_end();// ѕосле того как прошлись по всем символам строки последний символ помечаем как конец слова
 	}
 
 
-	std::map<unsigned int, std::string> search(const std::string& _str)
+	std::vector<li> search(const std::string& _str) // ћетод поиска окончаний слова
 	{
-		std::map<unsigned int, std::string> result;
+		std::vector<li> result;
 		
 		current = &root;
-		for (unsigned short int i = 0; i < _str.size(); ++i)
+		for (unsigned short int i = 0; i < _str.size(); ++i) // ¬ цикле переходим к последнему узлу
 		{
-			if (current->find(_str[i]))
+			if (current->find(_str[i]))// ≈сли узел с указанным списком существует - переходим в него
 			{
 				current = current->next(_str[i]);
 			}
-			else
+			else //≈сли узла не существует - возвраем пустой список - подставл€ть нечего
 			{
 				return result;
 			}
 		}
 
-		result = current->get_exist_end();
+		result = current->get_exist_end(); // ѕосле того как перешли к последнему узлу элемента слова - от данного узла запрашиваем существующие окончани€.
+		
 		
 		return result;
 	}

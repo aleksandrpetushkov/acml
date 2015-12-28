@@ -2,20 +2,29 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <algorithm>
 
 using namespace std;
 
 
 unsigned short int main()
 {
+	/*
+	При загрузка словаря рядом со словом указывается вес слова (сколько раз оно было выбрано для подстановки)
+	При поиске постановочных вариантов слов формируется вектор объектов класса "li", (файл Node строки 7-34).
+	В данном классе есть поля строка и вес строки. После того как сформируется вектор объектов "li" он сортируется и выводится в обратном порядке (у кого вес больше тот и выше)
+
+	//*/
+
+
+
 	system("chcp 1251 >> null");
-	
 	setlocale(LC_ALL, "ru-RU");
-	cout << "Hello world\n";
+	//cout << "Hello world\n";
 
 
 	fstream in_lib("lib.txt", ios::in); //Открываем поток на файл библиотеке для загрузки
-	fstream in_lib1("lib.txt1", ios::out); //Открываем поток на файл библиотеке для загрузки
+//	fstream in_lib1("lib.txt1", ios::out); //Открываем поток на файл библиотеке для загрузки
 
 	if (!in_lib)
 	{
@@ -37,13 +46,6 @@ unsigned short int main()
 		}
 		else
 		{
-			/*
-			size_t pos1(0), pos(0);
-			pos = st.find_first_not_of(" \t", 0);
-			pos1 = st.find_first_of(" \t", pos);
-			st = st.substr(pos, pos1 - pos); // Вырезается из строки только первое слово для отброса лишнего
-			//*/
-
 			tr.Add(st); 
 		}
 	}
@@ -51,14 +53,13 @@ unsigned short int main()
 	string str;
 	cout << "Enter symbol for search: ";
 	cin >> str;
-	map<unsigned int, string>mass_st;
-	cin.get();
+	vector<li> mass_st;
 	mass_st= tr.search(str);
-	//cout << mass_st.size();
-	cin.get();
+	cout << mass_st.size();
+	sort(mass_st.begin(), mass_st.end());
 	for (int i = mass_st.size() - 1; i >= 0; --i)
 	{
-		cout << str << mass_st[i] << "   " << i << endl;
+		cout << str << mass_st[i].st << "   " << mass_st[i].weight << endl;
 	}
 
 
