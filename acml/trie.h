@@ -28,11 +28,9 @@ public:
 		{
 			weight = stoi(_new.substr(pos2, pos3 - pos2));
 		}
-		//std::cout << _new;
 	
 		_new = _new.substr(pos, pos1 - pos); // Вырезается из строки только первое слово для отброса лишнего
 
-		//std::cout << "         " << _new;
 
 		for (unsigned short int i = 0; i < _new.size();++i) // Цикл в котором будет перебираться строка по символам и заноситься в дерево
 		{
@@ -76,7 +74,13 @@ public:
 		
 		return result;
 	}
-	void unload_lib(std::string file_name)
+
+
+	/*
+	Принимается имя файла и на него открывается поток. Файл очищается и выгружается обновленная библиотека слов с весами
+
+	*/
+	void unload_lib(std::string file_name) 
 	{
 		std::fstream fs(file_name, std::ios::out);
 		fs.clear();
@@ -84,15 +88,18 @@ public:
 		if (!fs) {}
 		else
 		{
-			std::vector<li> out;
-			for (unsigned int i(0); i < root.size(); ++i)
+			std::vector<li> out; //Вектор для слов с весами
+			/*
+			Цикл перебирающей все узлы в корневом узле
+			*/
+			for (unsigned int i(0); i < root.size(); ++i) 
 			{
 				int zzz = root.size();
 				current = root.next(i);
 				
 				
 				out = current->get_exist_end();
-				if (current->End())
+				if (current->End()) 
 				{
 					fs << current->get_val() << "\t" << current->get_weight()<< std::endl;
 				}
@@ -103,6 +110,26 @@ public:
 			}
 			fs.close();
 		}
+	}
+	void up(std::string _new)
+	{
+		current = &root;
+		for (unsigned short int i = 0; i < _new.size(); ++i) // Цикл в котором будет перебираться строка по символам и заноситься в дерево
+		{
+
+			if (current->find(_new[i])) // Если указанные символ имеется в списке узла - то передвигаем cuurrnt на данный узел
+			{
+				current = current->next(_new[i]);
+			}
+			else // если узла в списке нет - создаем его и передвигаем current на него;
+			{
+				current->add(_new[i]);
+				current = current->next(_new[i]);
+			}
+		}
+
+		//std::cout << "     " << weight << std::endl;;
+		current->set_weigth_up();
 	}
 
 protected:

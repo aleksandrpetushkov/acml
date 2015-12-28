@@ -41,8 +41,10 @@ unsigned short int main()
 		getline(in_lib, st);
 		if(!st.size()) // Если прочтенная строка имеет 0 символов - значит она пуста и ее нужно отбросить и вывести ошибку загрузки строки
 		{
+			/*
 			cerr << "Error load word\n";
 			cin.get();
+			//*/
 		}
 		else
 		{
@@ -52,19 +54,42 @@ unsigned short int main()
 	in_lib.close();
 
 	cout << "load completed\n";
-	string str;
-	cout << "Enter symbol for search: ";
-	cin >> str;
-	cin.get();
+	
+	//cin.get();
 	vector<li> mass_st;
-	mass_st= tr.search(str);
-	cout << mass_st.size();
+	//cout << mass_st.size();
 	sort(mass_st.begin(), mass_st.end());
+	for (bool b = true;b;)
+	{
+		string str;
+		int num(0);
+		cout << "Menu:\n" << "1. Work programs.\n" << "5. exit.\n";
+		int zz;
+		cin >> zz;
+		switch (zz)
+		{
+		case 1:
+			cout << "Enter symbol for search: ";
+			cin >> str;
+			mass_st = tr.search(str);
+			for (unsigned int k=mass_st.size()-1; k > 0;--k)
+			{
+				cout << "[" << mass_st.size() - k << "] - " << str << mass_st[k].st << endl;
+			}
+			cin >> num;
+			tr.up(mass_st[mass_st.size() - num + 1].st);
+			break;
+		case 5:
+			b = false;
+			break;
+		}
+	}
+	tr.unload_lib("lib.txt");// Выгрузка библиотеки
+	/*
 	for (int i = mass_st.size() - 1; i >= 0; --i)
 	{
 		cout << str << mass_st[i].st << "   " << mass_st[i].weight << endl;
 	}
-	tr.unload_lib("lib.txt");
-
+	*/
 	//cin.get();
 }

@@ -54,7 +54,10 @@ public:
 			return false;
 		}
 	}
-
+	void set_weigth_up() 
+	{
+		++weight;
+	}
 	Node* next(unsigned int i)
 	{
 		std::map<char, Node>::iterator iter = list.begin();
