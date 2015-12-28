@@ -58,7 +58,6 @@ unsigned short int main()
 	//cin.get();
 	vector<li> mass_st;
 	//cout << mass_st.size();
-	sort(mass_st.begin(), mass_st.end());
 	for (bool b = true;b;)
 	{
 		string str;
@@ -72,12 +71,27 @@ unsigned short int main()
 			cout << "Enter symbol for search: ";
 			cin >> str;
 			mass_st = tr.search(str);
-			for (unsigned int k=mass_st.size()-1; k > 0;--k)
+			sort(mass_st.begin(), mass_st.end());
+			if(mass_st.size()==0)
 			{
-				cout << "[" << mass_st.size() - k << "] - " << str << mass_st[k].st << endl;
+				cout << "Enter word not exist. add?(y/n); ";
+				char ch;
+				cin >> ch;
+				if(ch=='y')
+				{
+					tr.Add(str);
+				}
 			}
-			cin >> num;
-			tr.up(mass_st[mass_st.size() - num + 1].st);
+			else
+			{
+				for (unsigned int k = mass_st.size() ; k > 0; --k)
+				{
+					cout << "[" << mass_st.size() - k+1 << "] - " << str << mass_st[k-1].st << "  " << mass_st[k-1].weight << endl;
+				}
+				cin >> num;
+				tr.up(str + mass_st[mass_st.size() - num].st);
+			}
+			
 			break;
 		case 5:
 			b = false;
