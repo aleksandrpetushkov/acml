@@ -55,9 +55,18 @@ public:
 		}
 	}
 
+	Node* next(unsigned int i)
+	{
+		std::map<char, Node>::iterator iter = list.begin();
+		for (; i > 0; --i, ++iter)
+		{
+			std::cout << "i" << std::endl;
+		}
+		return	&(iter->second);;
+	}
 	Node* next(char _val)
 	{
-		return	&list[_val];	
+		return	&list[_val];
 	}
 	void add(char _elem)
 	{
@@ -71,6 +80,10 @@ public:
 	void Set_end()
 	{
 		_end = true;
+	}
+	char get_val()
+	{
+		return _val;
 	}
 	std::vector<li> get_exist_end()const // В рекурсии перебираются нижние узлы и формируется список существующих окончаний от запрошенного узла
 	{
@@ -104,6 +117,38 @@ public:
 		}
 		return result;
 	}
+	std::vector<li> get_lib()const
+	{
+
+		std::vector<li> result;
+		std::string tmp;
+		for (const auto& elem : list)
+		{
+			if (_end)
+			{
+
+				tmp = _val;
+				li l(weight, tmp);
+				result.push_back(l);
+				for (const auto& elem1 : elem.second.get_lib())
+				{
+					tmp = _val + elem1.st;
+					li l(elem1.weight, tmp);
+					result.push_back(l);
+				}
+			}
+			else
+			{
+				for (const auto& elem1 :elem.second.get_lib())
+				{
+					tmp = _val + elem1.st;
+					li l(elem1.weight, tmp);
+					result.push_back(l);
+				}
+			}
+		}
+		return result;
+	}
 
 	char size_nodes()const
 	{
@@ -118,7 +163,10 @@ public:
 	{
 		return weight;
 	}
-	
+	unsigned int size()
+	{
+		return list.size();
+	}
 protected:
 	unsigned int weight=0;
 	char _val;

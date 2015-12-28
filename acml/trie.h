@@ -3,6 +3,7 @@
 #include <vector>
 #include <set>
 #include <string>
+#include <fstream>
 
 class Trie
 {
@@ -74,6 +75,34 @@ public:
 		
 		
 		return result;
+	}
+	void unload_lib(std::string file_name)
+	{
+		std::fstream fs(file_name, std::ios::out);
+		fs.clear();
+		//std::cin.get();
+		if (!fs) {}
+		else
+		{
+			std::vector<li> out;
+			for (unsigned int i(0); i < root.size(); ++i)
+			{
+				int zzz = root.size();
+				current = root.next(i);
+				
+				
+				out = current->get_exist_end();
+				if (current->End())
+				{
+					fs << current->get_val() << "\t" << current->get_weight()<< std::endl;
+				}
+				for(const li o:out)
+				{
+					fs << current->get_val() << o.st << "\t" << o.weight << std::endl;
+				}
+			}
+			fs.close();
+		}
 	}
 
 protected:

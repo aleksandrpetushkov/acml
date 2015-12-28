@@ -49,10 +49,13 @@ unsigned short int main()
 			tr.Add(st); 
 		}
 	}
+	in_lib.close();
+
 	cout << "load completed\n";
 	string str;
 	cout << "Enter symbol for search: ";
 	cin >> str;
+	cin.get();
 	vector<li> mass_st;
 	mass_st= tr.search(str);
 	cout << mass_st.size();
@@ -61,7 +64,7 @@ unsigned short int main()
 	{
 		cout << str << mass_st[i].st << "   " << mass_st[i].weight << endl;
 	}
+	tr.unload_lib("lib.txt");
 
-
-	cin.get();
+	//cin.get();
 }
