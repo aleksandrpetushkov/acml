@@ -15,10 +15,12 @@ unsigned short int main()
 
 
 	fstream in_lib("lib.txt", ios::in); //Открываем поток на файл библиотеке для загрузки
+	fstream in_lib1("lib.txt1", ios::out); //Открываем поток на файл библиотеке для загрузки
 
 	if (!in_lib)
 	{
 		cerr << "Error open file\n";
+		cin.get();
 		return 1;
 	}
 
@@ -31,13 +33,17 @@ unsigned short int main()
 		if(!st.size()) // Если прочтенная строка имеет 0 символов - значит она пуста и ее нужно отбросить и вывести ошибку загрузки строки
 		{
 			cerr << "Error load word\n";
+			cin.get();
 		}
 		else
 		{
+			/*
 			size_t pos1(0), pos(0);
 			pos = st.find_first_not_of(" \t", 0);
 			pos1 = st.find_first_of(" \t", pos);
 			st = st.substr(pos, pos1 - pos); // Вырезается из строки только первое слово для отброса лишнего
+			//*/
+
 			tr.Add(st); 
 		}
 	}
@@ -45,13 +51,14 @@ unsigned short int main()
 	string str;
 	cout << "Enter symbol for search: ";
 	cin >> str;
-	cout << str << endl;
-	vector<string>mass_st;
+	map<unsigned int, string>mass_st;
 	cin.get();
 	mass_st= tr.search(str);
-	for(const auto& elem:mass_st)
+	//cout << mass_st.size();
+	cin.get();
+	for (int i = mass_st.size() - 1; i >= 0; --i)
 	{
-		cout << str << elem<<endl;
+		cout << str << mass_st[i] << "   " << i << endl;
 	}
 
 

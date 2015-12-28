@@ -14,12 +14,26 @@ public:
 	}
 	void Add(std::string _new) //ƒобавление строки
 	{
+		unsigned int weight(0);
 		current = &root; // current - будет использоватьс€ дл€ передвижени€ по дереву, изначально приравниваетс€ к указателю на корневой узел
+		size_t pos1(0), pos(0), pos2(0), pos3(0);
+		pos = _new.find_first_not_of(" \t", 0);
+		pos1 = _new.find_first_of(" \t", pos);
+
+		pos2 = _new.find_first_not_of(" \t", pos1);
+		pos3 = _new.find_first_of(" \t", pos2);
+
+		if(pos2!=pos3)
+		{
+			weight = stoi(_new.substr(pos2, pos3 - pos2));
+
+		}
+
+		_new = _new.substr(pos, pos1 - pos); // ¬ырезаетс€ из строки только первое слово дл€ отброса лишнего
 
 		for (unsigned short int i = 0; i < _new.size();++i) // ÷икл в котором будет перебиратьс€ строка по символам и заноситьс€ в дерево
 		{
-			std::cout << _new[i];
-			
+
 			if(current->find(_new[i])) // ≈сли указанные символ имеетс€ в списке узла - то передвигаем cuurrnt на данный узел
 			{
 				current = current->next(_new[i]);
@@ -30,14 +44,14 @@ public:
 				current = current->next(_new[i]);
 			}
 		}
-		std::cout << std::endl;
+		current->set_weigth(weight);
 		current->Set_end();// ѕосле того как прошлись по всем символам строки последний символ помечаем как конец слова
 	}
 
 
-	std::vector<std::string> search(const std::string& _str)
+	std::map<unsigned int, std::string> search(const std::string& _str)
 	{
-		std::vector<std::string> result;
+		std::map<unsigned int, std::string> result;
 		
 		current = &root;
 		for (unsigned short int i = 0; i < _str.size(); ++i)
@@ -50,10 +64,8 @@ public:
 			{
 				return result;
 			}
-			std::cout << _str[i];
 		}
-		std::cout << std::endl << std::endl;
-	
+
 		result = current->get_exist_end();
 		
 		return result;
