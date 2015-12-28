@@ -114,7 +114,6 @@ public:
 	void up(std::string _new)
 	{
 		current = &root;
-		std::cout << _new;
 		for (unsigned short int i = 0; i < _new.size(); ++i) // Цикл в котором будет перебираться строка по символам и заноситься в дерево
 		{
 
@@ -122,10 +121,7 @@ public:
 			{
 				current = current->next(_new[i]);
 			}
-			std::cout << _new[i];
 		}
-		std::cout << std::endl;
-		//std::cout << "     " << weight << std::endl;;
 		current->set_weigth_up();
 	}
 
