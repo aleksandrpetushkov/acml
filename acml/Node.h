@@ -63,7 +63,6 @@ public:
 		std::map<char, Node>::iterator iter = list.begin();
 		for (; i > 0; --i, ++iter)
 		{
-			std::cout << "i" << std::endl;
 		}
 		return	&(iter->second);;
 	}
