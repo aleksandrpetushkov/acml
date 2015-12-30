@@ -82,33 +82,28 @@ public:
 	*/
 	void unload_lib(std::string file_name) 
 	{
-		std::fstream fs(file_name, std::ios::out);
-		fs.clear();
-		//std::cin.get();
-		if (!fs) {}
+		std::vector<li> out; //Вектор для слов с весами
+		std::fstream fl(file_name, std::ios::out);
+
+		if (!fl)
+		{
+			std::cerr << "Error open file\n";
+		}
 		else
 		{
-			std::vector<li> out; //Вектор для слов с весами
 			/*
 			Цикл перебирающей все узлы в корневом узле
 			*/
 			for (unsigned int i(0); i < root.size(); ++i) 
 			{
-				int zzz = root.size();
 				current = root.next(i);
-				
-				
-				out = current->get_exist_end();
-				if (current->End()) 
+				out = current->get_lib();
+				for (const li o : out)
 				{
-					fs << current->get_val() << "\t" << current->get_weight()<< std::endl;
-				}
-				for(const li o:out)
-				{
-					fs << current->get_val() << o.st << "\t" << o.weight << std::endl;
+					fl << o.st << "\t" << o.weight << std::endl;
 				}
 			}
-			fs.close();
+			fl.close();
 		}
 	}
 	void up(std::string _new)

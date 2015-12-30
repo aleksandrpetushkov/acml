@@ -7,7 +7,13 @@
 class li
 {
 public:
+	li(){}
 	li(unsigned int i, std::string _st)
+	{
+		weight = i;
+		st = _st;
+	}
+	void set(const unsigned int& i, const std::string& _st)
 	{
 		weight = i;
 		st = _st;
@@ -92,34 +98,50 @@ public:
 
 		std::vector<li> result;
 		std::string tmp;
+		li l;
 		for (const auto& elem : list)
 		{
 			if (elem.second.End())
 			{
 				
 				tmp = elem.first;
-				li l(elem.second.get_weight(), tmp);
+				l.set(elem.second.get_weight(), tmp);
 				result.push_back(l);
-				for (const auto& elem1 : elem.second.get_exist_end())
-				{
-					tmp = elem.first + elem1.st;
-					li l(elem1.weight, tmp);
-					result.push_back(l);
-				}
 			}
-			else
+			for (const auto& elem1 : elem.second.get_exist_end())
 			{
-				for (const auto& elem1 : elem.second.get_exist_end())
-				{
-					tmp = elem.first + elem1.st;
-					li l(elem1.weight, tmp);
-					result.push_back(l);
-				}
+				tmp = elem.first + elem1.st;
+				l.set(elem1.weight, tmp);
+				result.push_back(l);
 			}
 		}
 		return result;
 	}
 	
+	std::vector<li> get_lib()const
+	{
+		std::vector<li> result;
+		std::string tmp;
+		li l;
+		if (_end)
+		{
+
+			tmp = _val;
+			li l(weight, tmp);
+			result.push_back(l);
+		}
+		for (const auto& elem : list)
+		{
+			for (const auto& elem1 : elem.second.get_lib())
+			{
+				tmp = _val + elem1.st;
+				l.set(elem1.weight, tmp);
+				result.push_back(l);
+			}
+		}
+		return result;
+	}
+
 
 	char size_nodes()const
 	{

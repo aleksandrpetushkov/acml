@@ -96,13 +96,10 @@ unsigned short int main(int argc, char* argv[])
 			tr.Add(st); 
 		}
 	}
-	in_lib.close();
-
+	//in_lib.close();
 	cout << "load completed\n";
 	
-	//cin.get();
 	vector<li> mass_st;
-	//cout << mass_st.size();
 	for (bool b = true;b;)
 	{
 		string str;
@@ -154,5 +151,4 @@ unsigned short int main(int argc, char* argv[])
 	RUN_ALL_TESTS();
 	cin.get();
 	cin.get();
-
 }
